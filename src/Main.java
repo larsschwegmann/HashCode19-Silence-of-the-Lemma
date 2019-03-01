@@ -2,7 +2,6 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.stream.Stream;
 
 public class Main {
@@ -28,10 +27,15 @@ public class Main {
     public static void main(String... args) {
         String inputFileName = args[0];
         String fileContents = readFileToString(inputFileName);
-        String out = Arrays.stream(fileContents.split("\n"))
-                .map(String::toUpperCase)
-                .reduce("", (acc, next) -> acc + next);
-        writeStringToFile("kek.txt", out);
+
+        Solver solver = new Solver(fileContents);
+        String out = solver.solve();
+
+        System.out.println(out);
+        String[] filenameComponents = inputFileName.split("/");
+        String lastComponent = filenameComponents[filenameComponents.length - 1];
+
+        writeStringToFile(lastComponent + ".out.txt", out);
     }
 
 }
